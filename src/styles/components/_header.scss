@@ -15,6 +15,19 @@ input:focus {
   box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
 }
 
+.bgc-div {
+  // height: 100vh;
+  // width: 100vw;
+  background-image: url("https://media.istockphoto.com/id/1435226158/photo/circuit-board-background-computer-data-technology-artificial-intelligence.webp?a=1&b=1&s=612x612&w=0&k=20&c=VROwMSP0NZhKDaJBc8mjxyI8REYKJ4QaWePEijXsKbo=");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.bgc-ele {
+  background-color: rgba(43, 42, 42, 0.3);
+  backdrop-filter: blur(10px);
+}
+
 // #root {
 //   display: flex;
 //   flex-direction: column;

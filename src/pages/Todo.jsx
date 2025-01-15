@@ -164,22 +164,28 @@ const Todo = () => {
     datafetch();
   }, []);
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        overflow: "hidden",
-      }}
-    >
-      <div className="w-100">
+    // <div
+    // style={{
+    //   height: "100vh",
+    //   width: "100vw",
+    //   display: "flex",
+    //   alignItems: "center",
+    //   justifyContent: "space-between",
+    //   flexDirection: "column",
+    //   overflow: "hidden",
+    // }}
+    // style={{
+    //   height: "100vh",
+    //   display: "flex",
+    //   alignItems: "flex-start",
+    //   justifyContent: "center",
+    // }}
+    // >
+    /* <div className="w-100">
         <Header />
-      </div>
-      <div
-        className="container-fluid d-flex align-items-start justify-content-center w-100"
+      </div> */
+    /* <div
+        className="container-fluid d-flex align-items-start justify-content-between w-100"
         style={
           theme === "dark"
             ? {
@@ -195,215 +201,242 @@ const Todo = () => {
                 overflow: "auto",
               }
         }
+      > */
+    <div
+      className="container-fluid w-100 d-flex  flex-column bgc-div"
+      style={{
+        height: "100vh",
+        width: "100vw",
+        overflowY: "hidden",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          flexDirection: "column",
+        }}
       >
-        <div className="w-100 d-flex align-items-center justify-content-center flex-column">
-          <div className="d-flex align-items-center justify-content-center flex-column w-100">
-            <div className="d-flex align-items-center justify-content-center gap-2 my-3 p-3 w-100">
-              <input
-                type="text"
-                name="text"
-                onChange={handleChange}
-                value={data.text}
-                className="py-2 px-2 rounded border-1 w-50"
-              />
-              <div style={{ textAlign: "center" }}>
-                <label htmlFor="file-input" style={styles.customButton}>
-                  Choose File
-                </label>
-                <input
-                  id="file-input"
-                  type="file"
-                  name="image"
-                  accept="image/*"
-                  style={styles.hiddenInput}
-                  onChange={handleImageChange}
-                  className="py-2 px-2 rounded border-1"
-                />
-              </div>
-              <button
-                onClick={handleClick}
-                className="px-3 py-2 rounded border-0 "
-                style={
-                  theme === "dark"
-                    ? { backgroundColor: "black", color: "white" }
-                    : { backgroundColor: "white", color: "black" }
-                }
-              >
-                Add
-              </button>
-            </div>
-            <div>
-              {data.image && (
-                <img
-                  src={data.image}
-                  alt="preview"
-                  style={{ height: "200px", width: "200px" }}
-                />
-              )}
-            </div>
-          </div>
-          <div className="d-flex align-items-center justify-content-center flex-column p-3 w-100 gap-2">
-            {value
-              ? value?.map((opt, ind) => {
-                  return opt.attributes.show ? (
-                    <div
-                      key={ind}
-                      className="w-100 d-flex align-items-center justify-content-center px-3 py-2 rounded gap-2"
-                      style={
-                        theme === "dark"
-                          ? { border: "1px solid black" }
-                          : { border: "1px solid white" }
-                      }
-                    >
-                      {editId === opt.id ? (
-                        <>
-                          <div className="d-flex align-items-center justify-content-center gap-2">
-                            <div>
+        <div className="d-flex align-items-center justify-content-start flex-column text-white w-100 p-3">
+          <h1 className="w-100 p-0 m-0">Rahul</h1>
+          <h1 className="w-100 p-0 m-0">Rahul</h1>
+        </div>
+        <div
+          className="d-flex  flex-column p-3 w-100 gap-2"
+          style={{ overflowY: "auto" }}
+        >
+          {value
+            ? value?.map((opt, ind) => {
+                return opt.attributes.show ? (
+                  <div
+                    key={ind}
+                    className="w-100 d-flex align-items-center justify-content-center px-3 py-2 rounded gap-2 bgc-ele"
+                    style={
+                      theme === "dark"
+                        ? { border: "1px solid black" }
+                        : { border: "1px solid white" }
+                    }
+                  >
+                    {editId === opt.id ? (
+                      <>
+                        <div className="d-flex align-items-center justify-content-center gap-2">
+                          <div>
+                            <input
+                              type="text"
+                              value={editText}
+                              className="px-3 py-2 rounded"
+                              onChange={(e) => setEditText(e.target.value)}
+                            />
+                          </div>
+                          <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              setPic(editImage);
+                            }}
+                          >
+                            {editImage && (
+                              <img
+                                src={editImage}
+                                alt="preview"
+                                style={{ height: "50px", width: "100px" }}
+                              />
+                            )}
+                            <div style={{ textAlign: "center" }}>
+                              <label
+                                htmlFor="file-input-edit"
+                                style={styles.customButton}
+                              >
+                                Choose File
+                              </label>
                               <input
-                                type="text"
-                                value={editText}
-                                className="px-3 py-2 rounded"
-                                onChange={(e) => setEditText(e.target.value)}
+                                id="file-input-edit"
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                                style={styles.hiddenInput}
+                                onChange={handleEditImageChange}
+                                className="py-2 px-2 rounded border-1"
                               />
                             </div>
-                            <div
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                setPic(editImage);
-                              }}
-                            >
-                              {editImage && (
-                                <img
-                                  src={editImage}
-                                  alt="preview"
-                                  style={{ height: "50px", width: "100px" }}
-                                />
-                              )}
-                              <div style={{ textAlign: "center" }}>
-                                <label
-                                  htmlFor="file-input-edit"
-                                  style={styles.customButton}
-                                >
-                                  Choose File
-                                </label>
-                                <input
-                                  id="file-input-edit"
-                                  type="file"
-                                  name="image"
-                                  accept="image/*"
-                                  style={styles.hiddenInput}
-                                  onChange={handleEditImageChange}
-                                  className="py-2 px-2 rounded border-1"
-                                />
-                              </div>
-                            </div>
-                            <div>
-                              <button
-                                className="px-3 py-2 rounded bg-primary border-0"
-                                onClick={() => handleEdit(editId)}
-                              >
-                                update
-                              </button>
-                            </div>
                           </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="w-100 d-flex align-items-center justify-content-center gap-2">
-                            <div className="d-flex align-items-center justify-content-center">
-                              {opt.attributes.text}
-                            </div>
-                            <div
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                setShow(true);
-                                setPic(opt.attributes.image);
-                              }}
+                          <div>
+                            <button
+                              className="px-3 py-2 rounded bg-primary border-0"
+                              onClick={() => handleEdit(editId)}
                             >
-                              {show && (
-                                <ShowImage image={pic} setShow={setShow} />
-                              )}
-                              {opt.attributes.image && (
-                                <img
-                                  src={opt.attributes.image}
-                                  alt="preview"
-                                  style={{ height: "50px", width: "100px" }}
-                                />
-                              )}
-                            </div>
+                              update
+                            </button>
                           </div>
-                          <button
-                            className="px-3 py-2 rounded bg-primary border-0"
-                            onClick={() => handleUpdate(opt)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            className="px-3 py-2 rounded bg-primary border-0"
-                          >
-                            Delete
-                          </button>
-
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-100 d-flex align-items-center justify-content-center gap-2">
+                          <div className="d-flex align-items-center justify-content-center">
+                            {opt.attributes.text}
+                          </div>
                           <div
-                            className="modal fade"
-                            id="exampleModal"
-                            tabIndex={-1}
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              setShow(true);
+                              setPic(opt.attributes.image);
+                            }}
                           >
-                            <div className="modal-dialog">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1
-                                    className="modal-title fs-5"
-                                    id="exampleModalLabel"
-                                  >
-                                    Are, you sure
-                                  </h1>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  />
-                                </div>
-                                <div className="modal-body">
-                                  Do you want to delete it
-                                </div>
-                                <div className="modal-footer">
-                                  <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                    onClick={() => handleDelete(opt.id)}
-                                  >
-                                    Yes
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal"
-                                  >
-                                    No
-                                  </button>
-                                </div>
+                            {show && (
+                              <ShowImage image={pic} setShow={setShow} />
+                            )}
+                            {opt.attributes.image && (
+                              <img
+                                src={opt.attributes.image}
+                                alt="preview"
+                                style={{ height: "50px", width: "100px" }}
+                              />
+                            )}
+                          </div>
+                        </div>
+                        <button
+                          className="px-3 py-2 rounded bg-primary border-0"
+                          onClick={() => handleUpdate(opt)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          className="px-3 py-2 rounded bg-primary border-0"
+                        >
+                          Delete
+                        </button>
+
+                        <div
+                          className="modal fade"
+                          id="exampleModal"
+                          tabIndex={-1}
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h1
+                                  className="modal-title fs-5"
+                                  id="exampleModalLabel"
+                                >
+                                  Are, you sure
+                                </h1>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                />
+                              </div>
+                              <div className="modal-body">
+                                Do you want to delete it
+                              </div>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                  onClick={() => handleDelete(opt.id)}
+                                >
+                                  Yes
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                >
+                                  No
+                                </button>
                               </div>
                             </div>
                           </div>
-                        </>
-                      )}
-                    </div>
-                  ) : null;
-                })
-              : null}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ) : null;
+              })
+            : null}
+        </div>
+        <div className="d-flex  justify-content-center flex-column w-100">
+          <div className="d-flex align-items-center justify-content-center gap-2 my-3 p-3 w-100">
+            <input
+              type="text"
+              name="text"
+              onChange={handleChange}
+              value={data.text}
+              className="py-2 px-2 rounded border-1 w-75 bgc-ele"
+            />
+            <div style={{ textAlign: "center" }}>
+              <label htmlFor="file-input" style={styles.customButton}>
+                Choose File
+              </label>
+              <input
+                id="file-input"
+                type="file"
+                name="image"
+                accept="image/*"
+                style={styles.hiddenInput}
+                onChange={handleImageChange}
+                className="py-2 px-2 rounded border-1"
+              />
+            </div>
+            <button
+              onClick={handleClick}
+              className="px-3 py-2 rounded border-0 "
+              style={
+                theme === "dark"
+                  ? { backgroundColor: "black", color: "white" }
+                  : { backgroundColor: "white", color: "black" }
+              }
+            >
+              Add
+            </button>
+          </div>
+          <div>
+            {data.image && (
+              <img
+                src={data.image}
+                alt="preview"
+                style={{ height: "200px", width: "200px" }}
+              />
+            )}
           </div>
         </div>
       </div>
     </div>
+    /* </div> */
+    /* </div> */
   );
 };
 
