@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 // import axios from "axios";
 import Parse from "../service/parse";
-import Modal from "../components/Modal";
+// import Modal from "../components/Modal";
 
 const Todo = () => {
   const { theme } = useContext(Context);
@@ -228,7 +228,7 @@ const Todo = () => {
         </div>
         <div
           className="d-flex  flex-column p-3 w-100 gap-2"
-          style={{ overflowY: "auto" }}
+          style={{ overflowY: "auto", height: "100%" }}
         >
           <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
             {value
@@ -237,11 +237,6 @@ const Todo = () => {
                     <div
                       key={ind}
                       className="w-75 d-flex align-items-center justify-content-center px-3 py-2 rounded gap-2 bgc-ele"
-                      style={
-                        theme === "dark"
-                          ? { border: "1px solid black" }
-                          : { border: "1px solid white" }
-                      }
                     >
                       {editId === opt.id ? (
                         <>
