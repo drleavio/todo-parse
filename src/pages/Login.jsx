@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import Parse from '../service/parse'
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const navigate=useNavigate();
@@ -26,9 +27,11 @@ const Login = () => {
         try {
             const response=await Parse.User.logIn(credentials.username,credentials.password)
             console.log(response);
+            toast.success('LoggedIn successfully')
             navigate('/todo')
             
         } catch (error) {
+            toast.error('Error doing Login')
             console.log('error doing signup',error);
             
         }

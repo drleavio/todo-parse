@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
-// import Header from "../components/Header";
-// import axios from "axios";
+import { toast } from 'react-toastify';
 import Parse from "../service/parse";
 import { useNavigate } from "react-router-dom";
-// import Modal from "../components/Modal";
+
 
 const Todo = () => {
   const navigate=useNavigate()
-  const user=Parse.User.current();
+  const session=useRef(null);
+  // const user=Parse.User.current();
   // const currUser=useRef(null);
   
   // useEffect(()=>{
@@ -43,12 +43,14 @@ const Todo = () => {
       task.set("text", editText);
       task.set("image", editImage);
       await task.save();
+      toast.success('Task updated Successfully')
       console.log("updated successfully");
       setEditId(null);
       setEditText(null);
       setEditImage(null);
       await datafetch();
     } catch (error) {
+      toast.error('Error updating Task')
       console.log("error updating");
     }
   };
@@ -76,9 +78,11 @@ const Todo = () => {
       console.log("task found");
       task.set("show", false);
       await task.save();
+      toast.success('task deleted successfully')
       console.log("deleted successfully");
       await datafetch();
     } catch (error) {
+      toast.error('error doing task deletion')
       console.log("error deleting");
     }
   };
@@ -141,9 +145,10 @@ const Todo = () => {
 
     newuser.set("text", data.text);
     newuser.set("image", data.image);
-    newuser.set('userid',user.id)
+    newuser.set('userid',session.current.id)
     try {
       const response = await newuser.save();
+      toast.success('task added successfully')
       setData({
         text: "",
         image: "",
@@ -151,10 +156,11 @@ const Todo = () => {
       await datafetch();
       console.log("data sent successfully", response);
     } catch (error) {
+      toast.error('error adding task')
       console.log("error sending data", error);
     }
   };
-  const session=useRef(null);
+  
   const datafetch = async () => {
     // try {
     //   const response = await axios.get("http://localhost:3000");
@@ -192,9 +198,11 @@ const Todo = () => {
     try {
       await Parse.User.logOut();
       session.current=null
+      toast.success('loggedout successfully')
       navigate('/')
       console.log("User logged out!");
     } catch (error) {
+      toast.error('error doing logout')
       console.error("Error while logging out:", error.message);
     }
   }

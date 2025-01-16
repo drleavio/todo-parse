@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import Parse from '../service/parse'
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
     const navigate=useNavigate();
@@ -32,10 +33,12 @@ const SignUp = () => {
         try {
             setLoading(true)
             const response=await user.signUp();
+            toast.success('SignUp successhully')
             navigate('/')
             console.log(response.attributes.sessionToken);
             
         } catch (error) {
+            toast.error('Error doing Signup')
             console.log('error doing signup',error);
             
         }finally{
