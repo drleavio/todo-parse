@@ -36,3 +36,9 @@ input:focus {
   color: #c4c5c4;
   font-size: 35px;
 }
+
+.media-container{
+  @media screen and (max-width:768px) {
+    width: 100%;
+  }
+}

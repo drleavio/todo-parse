@@ -1,12 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
 // import Header from "../components/Header";
 // import axios from "axios";
 import Parse from "../service/parse";
+import { useNavigate } from "react-router-dom";
 // import Modal from "../components/Modal";
 
 const Todo = () => {
+  const navigate=useNavigate()
+  const user=Parse.User.current();
+  // const currUser=useRef(null);
+  
+  // useEffect(()=>{
+  //   const currentUser=Parse.User.current();
+  //   if(currentUser){
+  //      currUser.current=currentUser;
+  //      console.log(currUser);
+       
+  //   }
+  // },[])
   const { theme } = useContext(Context);
   const [data, setData] = useState({
     id: "",
@@ -128,6 +141,7 @@ const Todo = () => {
 
     newuser.set("text", data.text);
     newuser.set("image", data.image);
+    newuser.set('userid',user.id)
     try {
       const response = await newuser.save();
       setData({
@@ -140,6 +154,7 @@ const Todo = () => {
       console.log("error sending data", error);
     }
   };
+  const session=useRef(null);
   const datafetch = async () => {
     // try {
     //   const response = await axios.get("http://localhost:3000");
@@ -150,16 +165,39 @@ const Todo = () => {
     //   console.log("error fetching data");
     // }
     const Product = Parse.Object.extend("user");
-    const query = new Parse.Query(Product);
+      const query = new Parse.Query(Product);
+      // const user_id=await Parse.User.current();
+      
     try {
+      const userSession=Parse.User.current();
+      if(!userSession){
+        navigate('/')
+      }
+      session.current=userSession;
+      console.log('session',session.current.id);
+      
+      query.equalTo('userid',userSession.id)
+      console.log('userid',userSession);
+     
       const response = await query.find();
 
       console.log(response);
       setValue(response);
+      
     } catch (error) {
       console.log("error fetching data", error);
     }
   };
+  const logout=async()=>{
+    try {
+      await Parse.User.logOut();
+      session.current=null
+      navigate('/')
+      console.log("User logged out!");
+    } catch (error) {
+      console.error("Error while logging out:", error.message);
+    }
+  }
   useEffect(() => {
     datafetch();
   }, []);
@@ -222,9 +260,16 @@ const Todo = () => {
           flexDirection: "column",
         }}
       >
-        <div className="d-flex align-items-center justify-content-start flex-column text-white w-100 p-3">
-          <h1 className="w-75 p-0 m-0 f-div">Good Afternoon, Rahul.</h1>
-          <h1 className="w-75 p-0 m-0 fs-div">You are what you do</h1>
+        <div className="d-flex align-items-center justify-content-start  text-white w-100 p-3">
+         <div className="w-75 d-flex align-items-center justify-content-center flex-column">
+         <h1 className="w-100 p-0 m-0 f-div">Good Afternoon, Rahul.</h1>
+         <h1 className="w-100 p-0 m-0 fs-div">You are what you do</h1>
+         </div>
+        {
+          session &&  <div className="w-25 d-flex align-items-center justify-content-end">
+          <button className="px-3 py-2 rounded border-0 text-white" style={{backgroundColor:"black"}} onClick={logout}>Logout</button>
+         </div>
+        }
         </div>
         <div
           className="d-flex  flex-column p-3 w-100 gap-2"
