@@ -223,8 +223,8 @@ const Todo = () => {
         }}
       >
         <div className="d-flex align-items-center justify-content-start flex-column text-white w-100 p-3">
-          <h1 className="w-75 p-0 m-0">Good Afternoon, Rahul.</h1>
-          <h1 className="w-75 p-0 m-0">You are what you do</h1>
+          <h1 className="w-75 p-0 m-0 f-div">Good Afternoon, Rahul.</h1>
+          <h1 className="w-75 p-0 m-0 fs-div">You are what you do</h1>
         </div>
         <div
           className="d-flex  flex-column p-3 w-100 gap-2"
@@ -293,7 +293,7 @@ const Todo = () => {
                       ) : (
                         <>
                           <div className="w-100 d-flex align-items-center justify-content-center gap-2">
-                            <div className="d-flex align-items-center justify-content-center">
+                            <div className="d-flex align-items-center justify-content-center text-white">
                               {opt.attributes.text}
                             </div>
                             <div
@@ -323,14 +323,13 @@ const Todo = () => {
                           </button>
                           <button
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                            onClick={() => handleDelete(opt.id)}
                             className="px-3 py-2 rounded bg-primary border-0"
                           >
                             Delete
                           </button>
 
-                          <div
+                          {/* <div
                             className="modal fade"
                             id="exampleModal"
                             tabIndex={-1}
@@ -361,7 +360,7 @@ const Todo = () => {
                                     type="button"
                                     className="btn btn-secondary"
                                     data-bs-dismiss="modal"
-                                    onClick={() => handleDelete(opt.id)}
+                                    
                                   >
                                     Yes
                                   </button>
@@ -376,7 +375,7 @@ const Todo = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       )}
                     </div>
@@ -385,14 +384,14 @@ const Todo = () => {
               : null}
           </div>
         </div>
-        <div className="d-flex  justify-content-center flex-column w-100">
-          <div className="d-flex align-items-center justify-content-center gap-2 my-3 p-3 w-100">
+        <div className="d-flex align-items-center justify-content-center flex-column w-100">
+          <div className="d-flex align-items-center justify-content-center gap-2 my-3 p-3 w-75">
             <input
               type="text"
               name="text"
               onChange={handleChange}
               value={data.text}
-              className="py-2 px-2 rounded border-1 w-50 bgc-ele"
+              className="py-2 px-2 rounded border-1 w-75 bgc-ele"
             />
             <div style={{ textAlign: "center" }}>
               <label htmlFor="file-input" style={styles.customButton}>
@@ -420,7 +419,7 @@ const Todo = () => {
               Add
             </button>
           </div>
-          <div>
+          <div style={{position:"absolute", bottom:"80px",right:"220px"}}>
             {data.image && (
               <img
                 src={data.image}
@@ -445,10 +444,10 @@ const styles = {
     display: "inline-block",
     backgroundColor: "#4CAF50",
     color: "white",
-    padding: "8px 10px",
+    padding: "10px 10px",
     borderRadius: "5px",
     cursor: "pointer",
-    fontSize: "16px",
+    fontSize: "12px",
     transition: "background-color 0.3s ease",
   },
   customButtonHover: {
