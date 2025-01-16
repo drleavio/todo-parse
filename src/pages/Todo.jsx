@@ -4,11 +4,14 @@ import ShowImage from "../components/ShowImage";
 import { toast } from 'react-toastify';
 import Parse from "../service/parse";
 import { useNavigate } from "react-router-dom";
+import { MoonLoader } from "react-spinners";
 
 
 const Todo = () => {
   const navigate=useNavigate()
   const session=useRef(null);
+  const [loading,setLoading]=useState(false);
+  const [addLoading,setAddLoading]=useState(false);
   // const user=Parse.User.current();
   // const currUser=useRef(null);
   
@@ -147,6 +150,7 @@ const Todo = () => {
     newuser.set("image", data.image);
     newuser.set('userid',session.current.id)
     try {
+      setAddLoading(true)
       const response = await newuser.save();
       toast.success('task added successfully')
       setData({
@@ -158,6 +162,8 @@ const Todo = () => {
     } catch (error) {
       toast.error('error adding task')
       console.log("error sending data", error);
+    }finally{
+      setAddLoading(false)
     }
   };
   
@@ -196,6 +202,7 @@ const Todo = () => {
   };
   const logout=async()=>{
     try {
+      setLoading(true)
       await Parse.User.logOut();
       session.current=null
       toast.success('loggedout successfully')
@@ -204,6 +211,8 @@ const Todo = () => {
     } catch (error) {
       toast.error('error doing logout')
       console.error("Error while logging out:", error.message);
+    }finally{
+      setLoading(false)
     }
   }
   useEffect(() => {
@@ -275,7 +284,9 @@ const Todo = () => {
          </div>
         {
           session &&  <div className="w-25 d-flex align-items-center justify-content-end">
-          <button className="px-3 py-2 rounded border-0 text-white" style={{backgroundColor:"black"}} onClick={logout}>Logout</button>
+          <button className="px-3 py-2 rounded border-0 text-white d-flex align-items-center justify-content-center gap-2" style={{backgroundColor:"black"}} onClick={logout}>
+            {loading && <MoonLoader size={15} color="white"/>}
+            Logout</button>
          </div>
         }
         </div>
@@ -462,13 +473,10 @@ const Todo = () => {
             </div>
             <button
               onClick={handleClick}
-              className="px-3 py-2 rounded border-0 "
-              style={
-                theme === "dark"
-                  ? { backgroundColor: "black", color: "white" }
-                  : { backgroundColor: "white", color: "black" }
-              }
+              className="px-3 py-2 rounded border-0 d-flex align-items-center justify-content-center gap-2 text-white"
+             style={{backgroundColor:"black"}}
             >
+              {addLoading && <MoonLoader size={15} color="white"/>}
               Add
             </button>
           </div>

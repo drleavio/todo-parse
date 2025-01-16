@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import Parse from '../service/parse'
 import { toast } from 'react-toastify';
+import { MoonLoader } from "react-spinners";
 
 const SignUp = () => {
     const navigate=useNavigate();
+    const [loading,setLoading]=useState(false);
     useEffect(()=>{
         const currentUser=Parse.User.current();
         if(currentUser){
@@ -17,7 +19,7 @@ const SignUp = () => {
         email:"",
         password:"",
     })
-    const [loading,setLoading]=useState(false);
+    
     const handleChange=(e)=>{
         const {name,value}=e.target;
         setCredentials({
@@ -55,7 +57,9 @@ const SignUp = () => {
             <input className='w-100 rounded px-3 py-2 border-0' name='email' type="email" placeholder='abc@xyz.com' onChange={handleChange} />
             <label className='w-100' htmlFor="password">Password</label>
             <input className='w-100 rounded px-3 py-2 border-0' name='password' type="text" placeholder='*********' onChange={handleChange}/>
-            <button className='w-100 rounded px-3 py-2 border-0 my-3 text-white' style={{backgroundColor:"black"}} onClick={handleClick} disabled={loading}>Login</button>
+            <button className='w-100 rounded px-3 py-2 border-0 my-3 text-white  d-flex align-items-center justify-content-center gap-2' style={{backgroundColor:"black"}} onClick={handleClick} disabled={loading}>
+                {loading && <MoonLoader size={15} color="white"/>}
+                Login</button>
             <p>Already have an account? Please <Link to="/">Login</Link></p>
         </div>
     </div>
