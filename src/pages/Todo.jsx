@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
-// import Header from "../components/Header";
-// import axios from "axios";
+import { toast } from 'react-toastify';
 import Parse from "../service/parse";
 import { useNavigate } from "react-router-dom";
-// import Modal from "../components/Modal";
+import { MoonLoader } from "react-spinners";
+
 
 const Todo = () => {
   const navigate=useNavigate()
-  const user=Parse.User.current();
+  const session=useRef(null);
+  const [loading,setLoading]=useState(false);
+  const [addLoading,setAddLoading]=useState(false);
+  // const user=Parse.User.current();
   // const currUser=useRef(null);
   
   // useEffect(()=>{
@@ -43,12 +46,14 @@ const Todo = () => {
       task.set("text", editText);
       task.set("image", editImage);
       await task.save();
+      toast.success('Task updated Successfully')
       console.log("updated successfully");
       setEditId(null);
       setEditText(null);
       setEditImage(null);
       await datafetch();
     } catch (error) {
+      toast.error('Error updating Task')
       console.log("error updating");
     }
   };
@@ -76,9 +81,11 @@ const Todo = () => {
       console.log("task found");
       task.set("show", false);
       await task.save();
+      toast.success('task deleted successfully')
       console.log("deleted successfully");
       await datafetch();
     } catch (error) {
+      toast.error('error doing task deletion')
       console.log("error deleting");
     }
   };
@@ -141,9 +148,11 @@ const Todo = () => {
 
     newuser.set("text", data.text);
     newuser.set("image", data.image);
-    newuser.set('userid',user.id)
+    newuser.set('userid',session.current.id)
     try {
+      setAddLoading(true)
       const response = await newuser.save();
+      toast.success('task added successfully')
       setData({
         text: "",
         image: "",
@@ -151,10 +160,13 @@ const Todo = () => {
       await datafetch();
       console.log("data sent successfully", response);
     } catch (error) {
+      toast.error('error adding task')
       console.log("error sending data", error);
+    }finally{
+      setAddLoading(false)
     }
   };
-  const session=useRef(null);
+  
   const datafetch = async () => {
     // try {
     //   const response = await axios.get("http://localhost:3000");
@@ -190,12 +202,17 @@ const Todo = () => {
   };
   const logout=async()=>{
     try {
+      setLoading(true)
       await Parse.User.logOut();
       session.current=null
+      toast.success('loggedout successfully')
       navigate('/')
       console.log("User logged out!");
     } catch (error) {
+      toast.error('error doing logout')
       console.error("Error while logging out:", error.message);
+    }finally{
+      setLoading(false)
     }
   }
   useEffect(() => {
@@ -267,7 +284,9 @@ const Todo = () => {
          </div>
         {
           session &&  <div className="w-25 d-flex align-items-center justify-content-end">
-          <button className="px-3 py-2 rounded border-0 text-white" style={{backgroundColor:"black"}} onClick={logout}>Logout</button>
+          <button className="px-3 py-2 rounded border-0 text-white d-flex align-items-center justify-content-center gap-2" style={{backgroundColor:"black"}} onClick={logout}>
+            {loading && <MoonLoader size={15} color="white"/>}
+            Logout</button>
          </div>
         }
         </div>
@@ -454,13 +473,10 @@ const Todo = () => {
             </div>
             <button
               onClick={handleClick}
-              className="px-3 py-2 rounded border-0 "
-              style={
-                theme === "dark"
-                  ? { backgroundColor: "black", color: "white" }
-                  : { backgroundColor: "white", color: "black" }
-              }
+              className="px-3 py-2 rounded border-0 d-flex align-items-center justify-content-center gap-2 text-white"
+             style={{backgroundColor:"black"}}
             >
+              {addLoading && <MoonLoader size={15} color="white"/>}
               Add
             </button>
           </div>
