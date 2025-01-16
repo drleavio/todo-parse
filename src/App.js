@@ -9,6 +9,7 @@ const App = () => {
     <>
       <Router>
         <Routes>
+          //how to do routing
           <Route path="/todo" element={<Todo />} />
           <Route path="/" element={<Login/>}/>
           <Route path="/signup" element={<SignUp/>}/>
