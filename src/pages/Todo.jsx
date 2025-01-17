@@ -300,7 +300,7 @@ const Todo = () => {
         }
         </div>
         <div
-          className="d-flex  flex-column p-3 w-100 gap-2"
+          className="d-flex  flex-column w-100 gap-2"
           style={{ overflowY: "auto", height: "100%" }}
         >
           <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
@@ -309,7 +309,7 @@ const Todo = () => {
                   return opt.attributes.show ? (
                     <div
                       key={ind}
-                      className="w-75 d-flex align-items-center justify-content-center px-3 py-2 rounded gap-2 bgc-ele"
+                      className="media-div d-flex align-items-center justify-content-center py-2 px-2 rounded gap-2 bgc-ele"
                     >
                       {editId === opt.id ? (
                         <>
@@ -458,7 +458,7 @@ const Todo = () => {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center flex-column w-100">
-          <div className="d-flex align-items-center justify-content-center gap-2 my-3 p-3 w-75">
+          <div className="d-flex align-items-center justify-content-center gap-2 my-3  media-div">
             <input
               type="text"
               name="text"
