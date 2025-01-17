@@ -26,6 +26,7 @@ const ShowImage = ({ image, setShow }) => {
         backgroundColor: "lightgray",
         height: "400px",
         width: "400px",
+        zIndex:"2"
       }}
     >
       <img

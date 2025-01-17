@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Context } from "./../context/useContext";
+import React, { useEffect, useRef, useState } from "react";
+// import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
 import { toast } from 'react-toastify';
 import Parse from "../service/parse";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
+import PhotoCrop from "../components/PhotoCrop";
 
 
 const Todo = () => {
@@ -12,6 +13,14 @@ const Todo = () => {
   const session=useRef(null);
   const [loading,setLoading]=useState(false);
   const [addLoading,setAddLoading]=useState(false);
+  const [croppedImage, setCroppedImage] = useState(null);
+  const handleCropComplete = (croppedImageUrl) => {
+    setCroppedImage(croppedImageUrl);
+    setData({
+      image:"",
+    })
+    // setImageSrc(null); // Close cropper
+  };
   // const user=Parse.User.current();
   // const currUser=useRef(null);
   
@@ -23,7 +32,7 @@ const Todo = () => {
        
   //   }
   // },[])
-  const { theme } = useContext(Context);
+  // const { theme } = useContext(Context);
   const [data, setData] = useState({
     id: "",
     text: "",
@@ -147,7 +156,7 @@ const Todo = () => {
     const newuser = new newdata();
 
     newuser.set("text", data.text);
-    newuser.set("image", data.image);
+    newuser.set("image", croppedImage);
     newuser.set('userid',session.current.id)
     try {
       setAddLoading(true)
@@ -155,8 +164,8 @@ const Todo = () => {
       toast.success('task added successfully')
       setData({
         text: "",
-        image: "",
       });
+      setCroppedImage(null)
       await datafetch();
       console.log("data sent successfully", response);
     } catch (error) {
@@ -480,10 +489,14 @@ const Todo = () => {
               Add
             </button>
           </div>
-          <div style={{position:"absolute", bottom:"80px",right:"220px"}}>
-            {data.image && (
+          <div style={{position:"absolute", bottom:"200px",right:"300px", height:"200px", width:"200px"}}>
+            {
+              data.image &&
+              <PhotoCrop imageSrc={data.image} setImageSrc={setData} onCropComplete={handleCropComplete} />
+            }
+            {croppedImage && (
               <img
-                src={data.image}
+                src={croppedImage}
                 alt="preview"
                 style={{ height: "200px", width: "200px" }}
               />
