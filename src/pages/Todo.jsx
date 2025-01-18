@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Context } from "./../context/useContext";
+import React, { useEffect, useRef, useState } from "react";
+// import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
 import { toast } from 'react-toastify';
 import Parse from "../service/parse";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
+import PhotoCrop from "../components/PhotoCrop";
 
 
 const Todo = () => {
@@ -12,6 +13,14 @@ const Todo = () => {
   const session=useRef(null);
   const [loading,setLoading]=useState(false);
   const [addLoading,setAddLoading]=useState(false);
+  const [croppedImage, setCroppedImage] = useState(null);
+  const handleCropComplete = (croppedImageUrl) => {
+    setCroppedImage(croppedImageUrl);
+    setData({
+      image:"",
+    })
+    // setImageSrc(null); // Close cropper
+  };
   // const user=Parse.User.current();
   // const currUser=useRef(null);
   
@@ -23,7 +32,7 @@ const Todo = () => {
        
   //   }
   // },[])
-  const { theme } = useContext(Context);
+  // const { theme } = useContext(Context);
   const [data, setData] = useState({
     id: "",
     text: "",
@@ -147,7 +156,7 @@ const Todo = () => {
     const newuser = new newdata();
 
     newuser.set("text", data.text);
-    newuser.set("image", data.image);
+    newuser.set("image", croppedImage);
     newuser.set('userid',session.current.id)
     try {
       setAddLoading(true)
@@ -155,8 +164,8 @@ const Todo = () => {
       toast.success('task added successfully')
       setData({
         text: "",
-        image: "",
       });
+      setCroppedImage(null)
       await datafetch();
       console.log("data sent successfully", response);
     } catch (error) {
@@ -291,7 +300,7 @@ const Todo = () => {
         }
         </div>
         <div
-          className="d-flex  flex-column p-3 w-100 gap-2"
+          className="d-flex  flex-column w-100 gap-2"
           style={{ overflowY: "auto", height: "100%" }}
         >
           <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
@@ -300,7 +309,7 @@ const Todo = () => {
                   return opt.attributes.show ? (
                     <div
                       key={ind}
-                      className="w-75 d-flex align-items-center justify-content-center px-3 py-2 rounded gap-2 bgc-ele"
+                      className="media-div d-flex align-items-center justify-content-center py-2 px-2 rounded gap-2 bgc-ele"
                     >
                       {editId === opt.id ? (
                         <>
@@ -449,7 +458,7 @@ const Todo = () => {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center flex-column w-100">
-          <div className="d-flex align-items-center justify-content-center gap-2 my-3 p-3 w-75">
+          <div className="d-flex align-items-center justify-content-center gap-2 my-3  media-div">
             <input
               type="text"
               name="text"
@@ -480,10 +489,14 @@ const Todo = () => {
               Add
             </button>
           </div>
-          <div style={{position:"absolute", bottom:"80px",right:"220px"}}>
-            {data.image && (
+          <div style={{position:"absolute", bottom:"200px",right:"300px", height:"200px", width:"200px"}}>
+            {
+              data.image &&
+              <PhotoCrop imageSrc={data.image} setImageSrc={setData} onCropComplete={handleCropComplete} />
+            }
+            {croppedImage && (
               <img
-                src={data.image}
+                src={croppedImage}
                 alt="preview"
                 style={{ height: "200px", width: "200px" }}
               />
