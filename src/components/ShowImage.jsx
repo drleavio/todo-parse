@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const ShowImage = ({ image, setShow }) => {
+const ShowImage = ({ image, setShowImg,setPic,setImgId }) => {
   const componentRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -8,7 +8,10 @@ const ShowImage = ({ image, setShow }) => {
         componentRef.current &&
         !componentRef.current.contains(event.target)
       ) {
-        setShow(false);
+        componentRef.current=null
+        setShowImg(false);
+        setPic(null);
+        setImgId(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -21,12 +24,13 @@ const ShowImage = ({ image, setShow }) => {
       ref={componentRef}
       className="d-flex align-items-center justify-content-center rounded"
       style={{
-        position: "absolute",
-        top: "100px",
+        position: "fixed",
+        top: "20px",
+        left:"100px",
         backgroundColor: "lightgray",
-        height: "400px",
-        width: "400px",
-        zIndex:"2"
+        height: "300px",
+        width: "300px",
+        zIndex:"10"
       }}
     >
       <img

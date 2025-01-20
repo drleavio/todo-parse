@@ -99,7 +99,7 @@ const Todo = () => {
     }
   };
 
-  const [show, setShow] = useState(false);
+  const [showImg, setShowImg] = useState(false);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -194,6 +194,9 @@ const Todo = () => {
       if(!userSession){
         navigate('/')
       }
+      // console.log('session',userSession.attributes.username);
+      // userName.current=userSession.attributes.username;
+      
       session.current=userSession;
       console.log('session',session.current.id);
       
@@ -227,6 +230,7 @@ const Todo = () => {
   useEffect(() => {
     datafetch();
   }, []);
+  const [imgId,setImgId]=useState(null);
   return (
     // <div
     // style={{
@@ -288,7 +292,10 @@ const Todo = () => {
       >
         <div className="d-flex align-items-center justify-content-start  text-white w-100 p-3">
          <div className="w-75 d-flex align-items-center justify-content-center flex-column">
-         <h1 className="w-100 p-0 m-0 f-div">Good Afternoon, Rahul.</h1>
+        {/* { session? */}
+
+         <h1 className="w-100 p-0 m-0 f-div">User</h1>
+        
          <h1 className="w-100 p-0 m-0 fs-div">You are what you do</h1>
          </div>
         {
@@ -303,13 +310,14 @@ const Todo = () => {
           className="d-flex  flex-column w-100 gap-2"
           style={{ overflowY: "auto", height: "100%" }}
         >
-          <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
+          <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2" >
             {value
-              ? value?.map((opt, ind) => {
+              ? value?.map((opt) => {
                   return opt.attributes.show ? (
                     <div
-                      key={ind}
+                      key={opt.id}
                       className="media-div d-flex align-items-center justify-content-center py-2 px-2 rounded gap-2 bgc-ele"
+                      
                     >
                       {editId === opt.id ? (
                         <>
@@ -365,19 +373,22 @@ const Todo = () => {
                         </>
                       ) : (
                         <>
-                          <div className="w-100 d-flex align-items-center justify-content-center gap-2">
+                          <div className="w-100 d-flex align-items-center justify-content-center gap-2" >
                             <div className="d-flex align-items-center justify-content-center text-white">
                               {opt.attributes.text}
                             </div>
                             <div
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer"}}
                               onClick={() => {
-                                setShow(true);
+                                setShowImg(true);
                                 setPic(opt.attributes.image);
+                                setImgId(opt.id);
                               }}
                             >
-                              {show && (
-                                <ShowImage image={pic} setShow={setShow} />
+                              {imgId== opt.id && showImg && (
+                               
+                                <ShowImage setImgId={setImgId} image={pic} setShowImg={setShowImg} setPic={setPic}/>
+                                
                               )}
                               {opt.attributes.image && (
                                 <img
