@@ -25,9 +25,19 @@ input:focus {
   // background-position: center;
 }
 
+.bgc-eles {
+  background-color: rgba(8, 8, 8, 0.6);
+  backdrop-filter: blur(10px);
+}
+
 .bgc-ele {
   background-color: rgba(8, 8, 8, 0.6);
   backdrop-filter: blur(10px);
+}
+.bgc-ele:hover{
+  background-color: rgba(51, 50, 50, 0.6);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
 }
 
 .f-div{
@@ -91,4 +101,16 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+.media-width{
+  width: 50%;
+  @media screen and (max-width:768px) {
+    width: 100%;
+  }
+}
+.media-width-second{
+  width: 75%;
+  @media screen and (max-width:768px) {
+    width: 100%;
+  }
 }
