@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-// import { Context } from "./../context/useContext";
 import ShowImage from "../components/ShowImage";
 import { toast } from 'react-toastify';
 import Parse from "../service/parse";
@@ -19,20 +18,8 @@ const Todo = () => {
     setData({
       image:"",
     })
-    // setImageSrc(null); // Close cropper
+    
   };
-  // const user=Parse.User.current();
-  // const currUser=useRef(null);
-  
-  // useEffect(()=>{
-  //   const currentUser=Parse.User.current();
-  //   if(currentUser){
-  //      currUser.current=currentUser;
-  //      console.log(currUser);
-       
-  //   }
-  // },[])
-  // const { theme } = useContext(Context);
   const [data, setData] = useState({
     id: "",
     text: "",
@@ -187,16 +174,12 @@ const Todo = () => {
     // }
     const Product = Parse.Object.extend("user");
       const query = new Parse.Query(Product);
-      // const user_id=await Parse.User.current();
       
     try {
       const userSession=Parse.User.current();
       if(!userSession){
         navigate('/')
       }
-      // console.log('session',userSession.attributes.username);
-      // userName.current=userSession.attributes.username;
-      
       session.current=userSession;
       console.log('session',session.current.id);
       
@@ -232,44 +215,6 @@ const Todo = () => {
   }, []);
   const [imgId,setImgId]=useState(null);
   return (
-    // <div
-    // style={{
-    //   height: "100vh",
-    //   width: "100vw",
-    //   display: "flex",
-    //   alignItems: "center",
-    //   justifyContent: "space-between",
-    //   flexDirection: "column",
-    //   overflow: "hidden",
-    // }}
-    // style={{
-    //   height: "100vh",
-    //   display: "flex",
-    //   alignItems: "flex-start",
-    //   justifyContent: "center",
-    // }}
-    // >
-    /* <div className="w-100">
-        <Header />
-      </div> */
-    /* <div
-        className="container-fluid d-flex align-items-start justify-content-between w-100"
-        style={
-          theme === "dark"
-            ? {
-                backgroundColor: "white",
-                color: "black",
-                flex: "1",
-                overflowY: "auto",
-              }
-            : {
-                backgroundColor: "black",
-                color: "white",
-                flex: "1",
-                overflow: "auto",
-              }
-        }
-      > */
     <div
       className="container-fluid w-100 d-flex  flex-column bgc-div"
       style={{
@@ -292,7 +237,6 @@ const Todo = () => {
       >
         <div className="d-flex align-items-center justify-content-start  text-white w-100 p-3">
          <div className="w-75 d-flex align-items-center justify-content-center flex-column">
-        {/* { session? */}
 
          <h1 className="w-100 p-0 m-0 f-div">User</h1>
         
@@ -412,54 +356,6 @@ const Todo = () => {
                           >
                             Delete
                           </button>
-
-                          {/* <div
-                            className="modal fade"
-                            id="exampleModal"
-                            tabIndex={-1}
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1
-                                    className="modal-title fs-5"
-                                    id="exampleModalLabel"
-                                  >
-                                    Are, you sure
-                                  </h1>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  />
-                                </div>
-                                <div className="modal-body">
-                                  Do you want to delete it
-                                </div>
-                                <div className="modal-footer">
-                                  <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                    
-                                  >
-                                    Yes
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal"
-                                  >
-                                    No
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
                         </>
                       )}
                     </div>
@@ -516,14 +412,12 @@ const Todo = () => {
         </div>
       </div>
     </div>
-    /* </div> */
-    /* </div> */
   );
 };
 
 const styles = {
   hiddenInput: {
-    display: "none", // Completely hides the input field
+    display: "none", 
   },
   customButton: {
     display: "inline-block",
@@ -536,7 +430,7 @@ const styles = {
     transition: "background-color 0.3s ease",
   },
   customButtonHover: {
-    backgroundColor: "#45a049", // Change on hover (use CSS for better support)
+    backgroundColor: "#45a049", 
   },
 };
 
